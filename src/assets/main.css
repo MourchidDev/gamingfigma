@@ -1,1 +1,94 @@
 * {box-sizing:border-box}
+
+<script setup>
+import carrousselImg from '@/components/carrousselImg.vue';
+import { onMounted, ref } from 'vue';
+
+const datas = ref([]);
+const itemActuel = ref(0);
+const count = ref(0);
+
+function incre() {
+    if (count.value < 10 && itemActuel.value < datas.value.length - 1) {
+        itemActuel.value++;
+        count.value++;
+    }
+}
+
+function decre() {
+    if (count.value > 0 && itemActuel.value > 0) {
+        itemActuel.value--;
+        count.value--;
+    }
+}
+
+const getData = () => {
+    return fetch('./public/data.json')
+        .then(response => response.json())
+        .then(dataTransform => {
+            datas.value = dataTransform;
+        })
+        .catch(error => console.log(error));
+};
+
+onMounted(() => {
+    getData();
+});
+</script>
+
+<template>
+<div>
+    <carrousselImg :datas="datas" :itemActuel="itemActuel" @prevBtn="decre" @nextBtn="incre"></carrousselImg>
+</div>
+</template>
+
+
+
+<script setup>
+import { defineProps, defineEmits } from 'vue';
+
+const props = defineProps({
+  datas: {
+    type: Array,
+    required: true,
+  },
+  itemActuel: {
+    type: Number,
+    required: true,
+  }
+});
+
+const emit = defineEmits(['prevBtn', 'nextBtn']);
+</script>
+
+<template>
+<div class="carroussel">
+    <div class="slid-item">
+        <div v-for="(dt, index) in datas" :key="dt.id" v-show="itemActuel === index" class="carrou-item fade">
+            <div class="img">
+                <!-- <img :src="dt.photo" alt="Image" /> -->
+            </div>
+            <div class="item-info">
+                <h2>{{ dt.Categorie }}</h2>
+                <h3>{{ dt.Titre }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="barre-progression">
+        <div class="btn-progression">
+            <button class="prev" @click="$emit('prevBtn')" :disabled="itemActuel === 0">
+                <img src="../assets/icons/arrow_back.svg" alt="Précédent" />
+            </button>
+            <button class="next" @click="$emit('nextBtn')" :disabled="itemActuel === datas.length - 1">
+                <img src="../assets/icons/arrow_forward.svg" alt="Suivant" />
+            </button>
+        </div>
+        <div class="barre-container">
+            <div class="barre-item" :style="{ width: (itemActuel + 1) / datas.length * 100 + '%' }"></div>
+        </div>
+        <div class="item-num">
+            <span>{{ count }}</span>
+        </div>
+    </div>
+</div>
+</template>

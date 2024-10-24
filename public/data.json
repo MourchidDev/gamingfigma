@@ -3,10 +3,10 @@
     "Titre": "Horizon Forbidden West", 
     "Description": "Horizon : Forbidden West est la suite d'Horizon Zero Dawn. Le jeu d'action aventure sur PS5 nous propose de réincarner Aloy, l’héroïne du premier volet, dans un monde post-apocalyptique. Explorez des terres gelées jusqu'aux eaux tropicales en découvrant les ruines de l'ancien monde.",
     "photo": "https://unsplash.it/300/300"},
-    { "id": 2, "Categorie": "Movies", "Titre": "John Wick", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
-    { "id": 3, "Categorie": "Movies", "Titre": "DUNE", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
-    { "id": 4, "Categorie": "Series", "Titre": "Wednesday", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
-    { "id": 5, "Categorie": "Animes", "Titre": "My Hero Academia", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
-    { "id": 6, "Categorie": "Games", "Titre": "Need for Speed Unbound", "Description": "Lorem", "photo": "https://unsplash.it/300/300"}
+    { "id": 1, "Categorie": "Movies", "Titre": "John Wick", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
+    { "id": 2, "Categorie": "Movies", "Titre": "DUNE", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
+    { "id": 3, "Categorie": "Series", "Titre": "Wednesday", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
+    { "id": 4, "Categorie": "Animes", "Titre": "My Hero Academia", "Description": "Lorem", "photo": "https://unsplash.it/300/300"},
+    { "id": 5, "Categorie": "Games", "Titre": "Need for Speed Unbound", "Description": "Lorem", "photo": "https://unsplash.it/300/300"}
     
     ]

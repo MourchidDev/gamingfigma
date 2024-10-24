@@ -1,63 +1,67 @@
 <script setup>
 import { defineProps } from 'vue'
+import { ref } from 'vue'
 
+const count = ref(0)
+function incre() {
+  if (count.value <= 10) {
+    count.value = props.datas.length -
+  }
+}
+function decre() {
+  count.value--
+  if (count.value <= 0) {
+    count.value = props.datas.length
+  }
+}
 const props = defineProps({
   datas: {
     type: Array,
     required: true,
   },
 })
-
-// let slideIndex = 1;
-// showSlides(slideIndex);
-
-// function plusSlides(n) {
-//   showSlides(slideIndex += n);
-// }
-
-// function showSlides(n) {
-//   let i;
-//   let slides = document.getElementsByClassName("carrou-item");
-//   if (n > slides.length) {slideIndex = 1}
-//   if (n < 1) {slideIndex = slides.length}
-//   for (i = 0; i < slides.length; i++) {
-//     slides[i].style.display = "none";
-//   }
-//   slides[slideIndex-1].style.display = "block";
-// }
-
 </script>
 
 <template>
   <div class="carroussel">
-        <div class="slid-item">
-            <div v-for="dt in datas" :key="dt.id" class="carrou-item fade">
-                    <div class="img">
-                            <!-- {{ dt.photo }} -->
-                    </div>
-                    <div class="item-info">
-                        <h2>{{ dt.Categorie }}</h2>
-                        <h3>{{ dt.Titre }}</h3>
-                    </div>
-            </div>
+    <div class="slid-item">
+      <div class="carrou-item0 fade">
+        <div class="img">
+          <!-- {{ datas[toto].photo }} -->
         </div>
-        <div class="barre-progression">
-                <div class="btn-progression">
-                    <button class="prev">
-                        <img src="../assets/icons/arrow_back.svg" />
-                    </button>
-                    <button class="next">
-                        <img src="../assets/icons/arrow_forward.svg" />
-                    </button>
-                </div>
-                <div class="barre-container">
-                    <div class="barre-item"></div>
-                </div>
-                <div class="item-num">
-                    <span>06</span>
-                </div>
+        <div class="item-info">
+          <h2>{{ datas[count]?.Categorie }}</h2>
+          <h3>{{ datas[count]?.Titre }}</h3>
         </div>
+      </div>
+
+      <div v-for="dt in datas" :key="dt.id" class="carrou-item fade">
+        <div class="img">
+          <!-- {{ dt.photo }} -->
+        </div>
+        <div class="item-info">
+          <h2>{{ dt.Categorie }}</h2>
+          <h3>{{ dt.Titre }}</h3>
+        </div>
+      </div>
     </div>
+    <div class="barre-progression">
+      <div class="btn-progression">
+        <button class="prev" @click="decre">
+          <img src="../assets/icons/arrow_back.svg" />
+        </button>
+        <button class="next" @click="incre">
+          <img src="../assets/icons/arrow_forward.svg" />
+        </button>
+      </div>
+      <div class="barre-container">
+        <div class="barre-item"></div>
+      </div>
+      <div class="item-num">
+        <span>{{ count }}</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -82,9 +86,22 @@ const props = defineProps({
   border-radius: 15px;
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  gap: 65px;
   margin: 0 auto;
   background: transparent;
+}
+
+.carrou-item0 {
+  position: absolute;
+  z-index: 40;
+  transform: scale(1.1);
+  width: 250px;
+  height: 448px;
+  border-radius: 30px;
+  border: 2px solid yellow;
+  background-image: url('../assets/Rectangle2.svg');
+
+  background-size: cover;
 }
 
 .carrou-item {
@@ -103,8 +120,12 @@ const props = defineProps({
 }
 
 @keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .item-info {
@@ -144,9 +165,8 @@ const props = defineProps({
   user-select: none;
   cursor: pointer;
 }
-.btn-progression button img{
-   
-    background: transparent;
+.btn-progression button img {
+  background: transparent;
 }
 
 .barre-container {
@@ -162,6 +182,7 @@ const props = defineProps({
   bottom: 2px;
   width: 10%;
   height: 0px;
+  transition: width 0.5s linear;
 }
 .item-num {
   width: 58px;
