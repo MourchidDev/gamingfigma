@@ -1,0 +1,7 @@
+ [
+    { "id": 1, "nom": "Tommy Ferson", "email": "tommyferson@gmail.com", "password": "tommy1234" },
+    { "id": 2, "nom": "Bravo Melchior", "email": "bravomelchior@gmail.com", "password": "bravo1234" },
+    { "id": 3, "nom": "Augustin Augustin", "email": "augustinaugustin@gmail.com", "password": "augustin1234" },
+    { "id": 4, "nom": "Sahid Sahid", "email": "sahidsahid@gmail.com", "password": "sahid1234" },
+    { "id": 5, "nom": "Emma Emma", "email": "emmaemma@gmail.com", "password": "emma1234" }
+]
