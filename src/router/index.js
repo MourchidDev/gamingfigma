@@ -3,6 +3,8 @@ import login from '@/components/login.vue';
 import SignIn from '@/components/SignIn.vue';
 import HomePage from '@/components/HomePage.vue';
 import Logout from '@/components/Logout.vue';
+// import Auth from '@/components/Auth.vue';
+
 
 
 let isAuthenticated = false; // Change devaleur selon ton état d'authentification
