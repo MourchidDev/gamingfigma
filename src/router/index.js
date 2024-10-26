@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import login from '@/components/login.vue';
+import login from '@/components/loginComponent.vue';
 import SignIn from '@/components/SignIn.vue';
 import HomePage from '@/components/HomePage.vue';
 import Logout from '@/components/Logout.vue';
+import NewComponent from '@/components/NewComponent.vue';
 // import Auth from '@/components/Auth.vue';
 
 
@@ -12,6 +13,10 @@ let isAuthenticated = false; // Change devaleur selon ton état d'authentificati
 const routes = [
   {
     path: '/',
+    component: login,
+  },
+  {
+    path: '/login',
     component: login,
   },
   {
@@ -35,17 +40,17 @@ const router = createRouter({
 });
 
 // Vérifie l'authentification avant d'accéder aux routes protégées
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-    next('/'); // Redirige vers la page de connexion si l'authentification n'as pas été faite
-  } else {
-    next(); // Permet l'accès
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+//     next('/'); // Redirige vers la page de connexion si l'authentification n'as pas été faite
+//   } else {
+//     next(); // Permet l'accès
+//   }
+// });
 
 //mise à jour de l'état d'authentification
-export function setAuthentication(status) {
-  isAuthenticated = status;
-}
+// export function setAuthentication(status) {
+//   isAuthenticated = status;
+// }
 
 export default router;
