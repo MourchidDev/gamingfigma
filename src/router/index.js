@@ -1,56 +1,47 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import login from '@/components/loginComponent.vue';
-import SignIn from '@/components/SignIn.vue';
+import NewComponent from '@/components/LoginAndRegistration.vue';
 import HomePage from '@/components/HomePage.vue';
 import Logout from '@/components/Logout.vue';
-import NewComponent from '@/components/NewComponent.vue';
-// import Auth from '@/components/Auth.vue';
 
-
-
-let isAuthenticated = false; // Change devaleur selon ton état d'authentification
+let isAuthenticated = false; // Change de valeur selon ton état d'authentification
 
 const routes = [
-  {
-    path: '/',
-    component: login,
-  },
-  {
-    path: '/login',
-    component: login,
-  },
-  {
-    path: '/sign',
-    component: SignIn,
-  },
-  {
-    path: '/logout',
-    component: Logout,
-  },
-  {
-    path: '/home',
-    component: HomePage,
-    meta: { requiresAuth: true }, // Protection de la route vers home
-  },
+    {
+        path: '/',
+        component: NewComponent,
+    },
+    {
+        path: '/home',
+        component: HomePage,
+        meta: { requiresAuth: true }, 
+    },
+    {
+        path: '/logout',
+        component: Logout,
+    },
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes,
 });
 
-// Vérifie l'authentification avant d'accéder aux routes protégées
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-//     next('/'); // Redirige vers la page de connexion si l'authentification n'as pas été faite
-//   } else {
-//     next(); // Permet l'accès
-//   }
-// });
+// Vérifie l'authentification avant d'accéder à la route protégée
+router.beforeEach((to, from, next) => {
+    if (to.path === '/home' && !isAuthenticated) {
+        next('/'); // Redirige vers la page de connexion
+    } else {
+        next(); // Permet l'accès à toutes les autres routes
+    }
+});
 
-//mise à jour de l'état d'authentification
-// export function setAuthentication(status) {
-//   isAuthenticated = status;
-// }
+// Mise à jour de l'état d'authentification
+export function setAuthentication(status) {
+    isAuthenticated = status;
+    localStorage.setItem('isAuthenticated', status); 
+}
+
+// À l'initialisation de l'application
+isAuthenticated = localStorage.getItem('isAuthenticated') === 'true'; 
 
 export default router;

@@ -1,20 +1,126 @@
 <script setup>
+
+//IMPORTS
+
 import { onMounted, ref } from 'vue';
-// import login from './loginComponent.vue';
-// import SignIn from './SignIn.vue';
+import { useRouter } from 'vue-router';
+import { setAuthentication } from '@/router';
+
+
+//DECLARATION DE VARIABLES
+const router = useRouter();
+
+const user = ref(null)
+const userEmail = ref('');
+const emailUsers = ref('');
+const password = ref('');
+const data = ref([]);
+const loading = ref(false); 
+// const userExist = ref(false);
+
+
+let password1 = "";
+let password2 = "";
 let loadLog = ref(false);
 let load = ref(false);
-
 let loadStyle = ref(false)
 let style = ref('padding-left: 250px;')
 let styleLogo = ref('')
 
+
+//FONCTIONS
+
+//FONCTION DE RECUPERATION
+async function fetchUser() {
+  const resp = await fetch('public/users-data.json');
+  data.value = await resp.json();
+  console.log(data.value);
+  
+}
+
+
+//CONNEXION DES UTILISATEURS
+    //LOGIN
+async function connectUser() {
+    if (data.value.length === 0) {
+        alert("Les données des utilisateurs ne sont pas encore chargées.");
+        return;
+    }
+
+  const user = data.value.find(el => el.email === userEmail.value);
+  if (user && password.value === user.password) {
+    loading.value = true;
+    setAuthentication(true); 
+
+    setTimeout(() => {
+    userEmail.value = "";
+    password.value = "";
+    router.push('/home'); 
+    loading.value = false;
+  }, 4000);
+
+  } else {
+    alert("Entrez vos identifiants");
+  }
+}
+
+
+      //SIGN IN
+
+async function connectUsers() {
+    console.log(user.value);
+    user.value =  data.value.filter(el => el.email == userEmail.value)
+    console.log(user.value);
+  if(user.value.length <=0) {
+    /* if(password.value == user.value[0].password) {
+        // router.push('/home');
+        alert ("mot de passe déjà utiliser");
+    } else {
+        router.push('/');
+    } */
+        if(password1 == password2){
+            router.push("/home");
+        } else {
+            alert("les mots de passe ne sont pas conformes");
+        }
+   
+    }else{
+        alert("L'email entrer existe déjà");
+    }  
+
+} 
+
+
+//SOUMISSION DE LA REQUETE DU USER
+
+    //LOGIN
+    function submit() {
+      connectUser();
+    }
+    
+    //SIG IN
+    function submite() {
+    // console.log(userEmail.value);
+    // router.push('/dashboard');
+    connectUsers();
+}
+
+
+//COMPORTEMENT D'AFFICHAGE DES COMPOSANT LORSQUE CHARG2
+
 onMounted( () =>{
+
+  fetchUser();
+  userEmail.value = ''; 
+  password.value = ''; 
+
+  //LODING-SIGNING
   loadLog.value = true
   load.value = true
   loadStyle.value = true
 } )
 
+//ACTIONS A EXECUTER AU CLICK DU LOGO OU DES LAST P 
 function moov(){
   loadLog.value = !loadLog.value
 
@@ -28,26 +134,19 @@ function moov(){
 
     setTimeout(()=>{
       load.value = loadLog.value
-    }, 500)
+    }, 600)
 
 }
 
 
 
-// const isMoving = ref(false);
 
-// function moving() {
-//   isMoving.value = true;
-//   setTimeout(() => {
-//     isMoving.value = false;
-//   }, 2000); 
-// }
 </script>
 
  <template>
 <div class="big-container">
     
-    <div id="logo" @click="moov()" :class="{ logoMove: isMoving }" :style="loadStyle ? styleLogo : ''">
+    <div id="logo" @click="moov()" :style="loadStyle ? styleLogo : ''">
       <img src="/src/assets/Images/logo1.jpg" alt="logo1" class="img">
     </div>
 
@@ -76,19 +175,20 @@ function moov(){
       <div class="forgot-password">
         <a class="link" href="#">Mot de passe oublié ?</a>
       </div>
-      <div class="sign-up" @click="() => moov()">
+      <div class="sign-up" @click = "moov">
+      <!-- <div class="sign-up" @click="() => moov()"> -->
         <p class="create" >Créer un nouveau compte !</p>
       </div>
      </div>
      
       <div v-else class="sign">
         <h2 class="h2" >Sign Up</h2>
-            <form>
+            <form @submit.prevent="submite">
                 <input type="text" placeholder="Username" required>
                 <p><input v-model="emailUsers" type="email" placeholder="Email" required> <i class="fa fa-envelope"></i></p>
                 <p><input v-model="password1" type="password" placeholder="Password" required> <svg class="faas"  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg></p>
                 <input v-model="password2" type="password" placeholder="Confirm Password" required>
-                <button type="submit" @click="submit()" @keyup.enter="submit" class="btn" >Sign</button>
+                <button type="submit" @click="submite()" @keyup.enter="submit" class="btn" >Sign</button>
             </form>
             <div class="login-link">
                 <!-- <p class="created"><RouterLink to="/"  @keyup.enter="submit">Already have an account? </RouterLink></p> -->
@@ -251,7 +351,7 @@ button {
      /* width: 100px;  */
      position : relative;
      right:  20px;
-}
+}     
 
 .faas {
 position : relative;

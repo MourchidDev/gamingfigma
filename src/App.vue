@@ -1,5 +1,5 @@
 <script setup>
-import NewComponent from './components/NewComponent.vue';
+// import NewComponent from './components/NewComponent.vue';
 
 
 
@@ -8,8 +8,8 @@ import NewComponent from './components/NewComponent.vue';
 <template>
 
 
-<NewComponent></NewComponent>
-  <!-- <RouterView></RouterView> -->
+<!-- <NewComponent/>  -->
+<RouterView></RouterView>
 </template>
 
 <style scoped>
